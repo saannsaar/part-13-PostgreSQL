@@ -1,14 +1,14 @@
 const Sequelize = require('sequelize')
 const { DATABASE_URL } = require('./config')
-
+const logger = require('./logger')
 const sequelize = new Sequelize(DATABASE_URL)
 
 const connectToDatabase = async () => {
   try {
     await sequelize.authenticate()
-    console.log('connected to the database')
+    logger.info('Connected to the database succesfully!')
   } catch (err) {
-    console.log('failed to connect to the database')
+    logger.error('Failed to connect to the database!')
     return process.exit(1)
   }
 
