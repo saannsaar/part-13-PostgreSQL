@@ -1,6 +1,7 @@
-PUT http://localhost:3001/api/users/sanninkayttaja
+PUT http://localhost:3001/api/users/wilmankayttis@email.fi
 Content-Type: application/json
 
+// Fails cause username should be email
 {
-    "username": "sanninuusikayttaja"
+    "username": "wilmankayttis"
 }
