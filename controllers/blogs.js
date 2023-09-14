@@ -47,4 +47,24 @@ router.delete('/:id', blogFinder, async(req, res) => {
     res.status(204).end()
 })
 
+router.put('/:id', blogFinder, async(req, res) => {
+    try {
+        const blog = req.blog
+
+        console.log(blog)
+        // If blog is not found, end
+        if (!blog) res.status(404).end()
+
+        // If query does not contain likes property do not update blog
+        if (!req.body.likes) return res.json(blog)
+
+        else blog.likes = req.body.likes
+        await blog.save()
+
+        res.json(blog)
+        } catch(error) {
+            res.status(400).json({ error })
+        }
+})
+
 module.exports = router

@@ -3,6 +3,6 @@ content-type: application/json
 
 {
   "author": "Wilma koira",
-    "url": "wwww.wwww.www",
-    "title": "Kissa blogi"
+    "url": "wwww.wwww.wssww",
+    "title": "Lintu blogi"
 }
