@@ -1,0 +1,8 @@
+POST http://localhost:3001/api/blogs
+content-type: application/json
+
+{
+  "author": "Wilma koira",
+    "url": "wwww.wwww.www",
+    "title": "Kissa blogi"
+}
