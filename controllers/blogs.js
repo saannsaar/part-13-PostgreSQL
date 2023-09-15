@@ -1,33 +1,33 @@
 const router = require('express').Router()
 
 const { Blog, User } = require('../models')
-
-
+const { userExtractor }  = require('../util/middleware')
+const logger = require('../util/logger')
 
 router.get('/', async(req, res) => {
-    const blogs = await Blog.findAll()
-    // console.log('Executing (default): SELECT * FROM blogs')
-    // blogs.forEach((blog) => {
-    //     console.log(`${blog.author}: ${blog.title}, ${blog.likes} likes`)
-    // })
+    const blogs = await Blog.findAll({
+        attributes: { exclude: ['userId'] },
+        include: { model: User, attributes: ['username', 'name'] }
+    })
+
 
     console.log(JSON.stringify(blogs))
 
     res.json(blogs)
 })
 
-router.post('/', async (req, res) => {
-   console.log(req.body)
-   try {
-    
-    console.log(req.body)
-    const user = await User.findOne()
-    const blog = await Blog.create({...req.body, userId: user.id})
-    res.json(blog)
-   } catch(error) {
-    return res.status(400).json({ error })
-   }
+router.post('/', userExtractor, async (req, res) => {
+    const { body, decodedToken: { id: userId } } = req;
+  
+    const user = await User.findByPk(userId)
+    if (!user) res.status(401).end();
+    logger.info('user', user.id, JSON.stringify(user, null, 2));
+    const blog = await Blog.create({ ...body, userId: user.id });
+    logger.info(JSON.stringify(blog, null, 2));
+  
+    res.json(blog);
   })
+
 
   const blogFinder = async (req,res, next) => {
     req.blog = await Blog.findByPk(req.params.id)
