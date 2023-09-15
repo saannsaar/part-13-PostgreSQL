@@ -2,6 +2,8 @@ const logger = require('./logger')
 const User = require('../models/user')
 const jwt = require('jsonwebtoken')
 const { SECRET } = require('./config')
+const { Session } = require('../models')
+
 const requestLogger = (request, response, next) => {
     logger.info('Method:', request.method)
     logger.info('Path:  ', request.path)
@@ -48,19 +50,30 @@ const tokenExtractor = ( request, response, next ) => {
 }
 
 const userExtractor = async ( req, res, next ) => {
-    const authorization = req.get('authorization');
+    const authorization = req.get('authorization')
   if (authorization && authorization.startsWith('bearer ')) {
     console.log(jwt.verify(authorization.substring(7), SECRET))
     try {
-      req.decodedToken = jwt.verify(authorization.substring(7), SECRET);
+      req.token = authorization.substring(7)
+      req.decodedToken = jwt.verify(authorization.substring(7), SECRET)
     } catch{
-      return res.status(401).json({ error: 'Token is invalid.' });
+      return res.status(401).json({ error: 'Token is invalid.' })
     }
   }  else {
-    return res.status(401).json({ error: 'Token is missing.' });
+    return res.status(401).json({ error: 'Token is missing.' })
   }
+  next()
+}
+
+const verifysession = async (req, res, next) => {
+  if (!req.decodedToken) return res.status(401).json({ error: 'Token is missing.' })
+
+  const session = await Session.findOne({ where: { userId: req.decodedToken.id, token: req.token } })
+  if (!session || !session.isValid) return res.status(401).json({ error: 'Session is invalid.' })
+
   next();
 }
+
 
 module.exports = {
 requestLogger,
@@ -68,4 +81,5 @@ unknownEndpoint,
 errorHandler,
 userExtractor,
 tokenExtractor,
+verifysession
 }
