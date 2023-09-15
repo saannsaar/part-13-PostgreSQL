@@ -1,9 +1,10 @@
 POST http://localhost:3001/api/blogs
 content-type: application/json
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNhbm5pbmtheXR0aXNAZW1haWwuZmkiLCJpZCI6MiwiaWF0IjoxNjk0NzU5NjMxfQ.oP7tprXhFVzLq5cJgeeIW9NTYbg7rwi0UPNnbZG9oE0
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNhbm5pbmtheXR0aXNAZW1haWwuZmkiLCJpZCI6MSwiaWF0IjoxNjk0NzYyODk4fQ.t2Q1jzToEAyG5071cJjhEoZE5N0exZV_QVof4DUqww4
 
 {
   "author": "Sanni Mina",
     "url": "wwww.ssww",
-    "title": "Tarinoita"
+    "title": "Tarinoita",
+    "year": 2000
 }

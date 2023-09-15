@@ -2,7 +2,7 @@ const Sequelize = require('sequelize')
 const { DATABASE_URL } = require('./config')
 const logger = require('./logger')
 const sequelize = new Sequelize(DATABASE_URL)
-const { Umzug, SequelizeStorage } = require('umzug')
+const { Umzug, SequelizeStorage, migrationConf } = require('umzug')
 
 
 const runMigrations = async () => {
@@ -34,4 +34,10 @@ const connectToDatabase = async () => {
   return null
 }
 
-module.exports = { connectToDatabase, sequelize }
+const rollbackMigration = async () => {
+    await sequelize.authenticate()
+    const migrator = new Umzug(migrationConf)
+    await migrator.down()
+  }
+
+module.exports = { connectToDatabase, sequelize, rollbackMigration }
