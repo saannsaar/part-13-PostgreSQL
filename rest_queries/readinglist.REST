@@ -1,10 +1,8 @@
-POST http://localhost:3001/api/blogs
+POST http://localhost:3001/api/readinglists
 content-type: application/json
 Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNhbm5pbmtheXR0aXNAZW1haWwuZmkiLCJpZCI6MSwiaWF0IjoxNjk0NzY1MTM4fQ.kCrTaafd5XUF4zAyG_cr9YbzhxFPypeS76WHHIzqOPQ
 
 {
-  "author": "Sanni Mina",
-    "url": "wwww.ssww",
-    "title": "Joulublogi",
-    "year": 2000
+  "blogId": "1",
+    "userId": "2"
 }
